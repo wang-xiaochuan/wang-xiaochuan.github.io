@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<title>王小川 · Xiaochuan Wang — community infrastructure</title>
+
+<!-- 内联 SVG favicon：不请求外部文件，浏览器标签页显示「川」 -->
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%231c1917'/><text x='50' y='74' font-size='64' text-anchor='middle' fill='%23faf9f7' font-family='Georgia,serif'>川</text></svg>">
+
+<meta name="description" content="Community infrastructure — operations, media, research, and writing. 在社区里做基础设施：运营、媒体、研究、写作。">
+<meta name="author" content="王小川 Xiaochuan Wang">
+
+<!-- 分享到微信 / Twitter / Slack 时的预览。og:image 需要先上传图片再放开这行，
+     否则指向一个不存在的文件（不会有副作用，只是没有预览图）。
+     建议做一张 1200×630 的封面图放在 images/og-cover.png。
+<meta property="og:image" content="https://wang-xiaochuan.github.io/images/og-cover.png">
+-->
+<meta property="og:type" content="profile">
+<meta property="og:title" content="王小川 · Xiaochuan Wang">
+<meta property="og:description" content="Community infrastructure — operations, media, research, and writing.">
+<meta property="og:url" content="https://wang-xiaochuan.github.io/">
+<meta name="twitter:card" content="summary_large_image">
+
+<style>
+  /* 关键样式全部内联：不依赖任何 CDN。门面不该有"CDN 挂了就白屏"的脆弱性。 */
+  :root{
+    --ink:#1c1917;          /* stone-900 */
+    --ink-soft:#57534e;     /* stone-600 */
+    --ink-faint:#a8a29e;    /* stone-400 */
+    --rule:#e7e5e4;         /* stone-200 */
+    --bg:#faf9f7;
+    --card:#ffffff;
+    --accent:#7c2d12;       /* 克制的赭色，用于链接与标记 */
+  }
+  *{box-sizing:border-box}
+  html{-webkit-text-size-adjust:100%}
+  body{
+    margin:0; background:var(--bg); color:var(--ink);
+    font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans GB",
+                "Microsoft YaHei","Segoe UI",Roboto,"Helvetica Neue",sans-serif;
+    font-size:17px; line-height:1.75;
+    -webkit-font-smoothing:antialiased;
+  }
+  .serif{
+    font-family:Georgia,"Songti SC","Source Han Serif SC","Noto Serif CJK SC",
+                "Times New Roman",serif;
+  }
+  .wrap{max-width:44rem; margin:0 auto; padding:0 1.5rem}
+  a{color:var(--accent); text-decoration:none; border-bottom:1px solid rgba(124,45,18,.25)}
+  a:hover{border-bottom-color:var(--accent)}
+
+  /* ── 双语配对：英文为主，中文紧随且略收敛 ── */
+  .zh{color:var(--ink-soft)}
+  .en{margin:0}
+  .bi > .en{margin:0 0 .2rem}
+  .bi > .zh{margin:0}
+  .bi{margin:0 0 1.3rem}
+  .bi:last-child{margin-bottom:0}
+
+  /* ── 首屏 ── */
+  header{padding:5.5rem 0 3rem; border-bottom:1px solid var(--rule)}
+  h1{
+    font-size:clamp(1.9rem,5.5vw,2.6rem); line-height:1.25;
+    margin:0 0 1.1rem; font-weight:600; letter-spacing:-.01em;
+  }
+  .tag-en{font-size:1.06rem; margin:0 0 .4rem; font-weight:500}
+  .tag-zh{font-size:1.04rem; margin:0; color:var(--ink-soft)}
+  .where{
+    margin:2.2rem 0 0; font-size:.87rem; color:var(--ink-faint);
+    font-family:ui-monospace,SFMono-Regular,Menlo,monospace;
+    letter-spacing:.02em;
+  }
+
+  /* ── 通用小节 ── */
+  section{padding:3.4rem 0; border-bottom:1px solid var(--rule)}
+  h2{
+    font-size:.78rem; font-weight:600; letter-spacing:.14em; text-transform:uppercase;
+    color:var(--ink-faint); margin:0 0 1.9rem;
+    font-family:ui-monospace,SFMono-Regular,Menlo,monospace;
+  }
+  .lede-en{font-size:1.06rem; margin:0 0 .45rem}
+  .lede-zh{font-size:1rem; margin:0; color:var(--ink-soft)}
+
+  /* ── 四类工作 ── */
+  .doing{margin:0 0 2.5rem}
+  .doing:last-child{margin-bottom:0}
+  .doing h3{font-size:1.08rem; margin:0 0 .55rem; font-weight:600}
+  .doing h3 .num{
+    color:var(--ink-faint); font-weight:400; margin-right:.5rem;
+    font-family:ui-monospace,SFMono-Regular,Menlo,monospace; font-size:.9rem;
+  }
+  .doing h3 .zh-t{color:var(--ink-soft); font-weight:400; font-size:.95rem; margin-left:.5rem}
+  .doing p{margin:0 0 .35rem; font-size:.97rem}
+  .doing p.zh{font-size:.94rem}
+  .doing p:last-child{margin-bottom:0}
+  .arrow{color:var(--ink-faint); margin-right:.4rem}
+
+  /* ── 作品卡片 ── */
+  .card{
+    background:var(--card); border:1px solid var(--rule);
+    border-radius:10px; padding:1.15rem 1.3rem; margin-bottom:.85rem;
+  }
+  .card:hover{border-color:var(--ink-faint)}
+  .card .t{font-weight:600; margin:0 0 .35rem; font-size:1rem; color:var(--ink)}
+  .card .t a{border-bottom:none; color:var(--ink)}
+  .card .t a:hover{border-bottom:1px solid currentColor}
+  .card .t code{
+    font-family:ui-monospace,SFMono-Regular,Menlo,monospace;
+    font-size:.88rem; background:#f5f5f4; padding:.1rem .38rem; border-radius:4px;
+    color:var(--ink);
+  }
+  .card .d{margin:0 0 .2rem; font-size:.93rem}
+  .card .d.zh{font-size:.9rem; margin-bottom:0}
+  .card .meta{
+    margin:.6rem 0 0; font-size:.8rem; color:var(--ink-faint);
+    font-family:ui-monospace,SFMono-Regular,Menlo,monospace;
+  }
+  .card .meta span+span:before{content:" · "; margin:0 .3rem}
+
+  /* ── 联系与署名 ── */
+  footer{padding:3rem 0 4rem}
+  footer p{margin:0 0 .6rem; font-size:.97rem}
+  footer .zh{font-size:.94rem}
+  footer .links{margin-top:1.4rem; font-size:.9rem}
+  .colophon{
+    margin-top:3rem; padding-top:1.5rem; border-top:1px solid var(--rule);
+    font-size:.82rem; color:var(--ink-faint); line-height:1.7;
+  }
+  .colophon p{margin:0 0 .6rem; font-size:.82rem; color:var(--ink-faint)}
+  .colophon p:last-child{margin-bottom:0}
+
+  @media (max-width:480px){
+    header{padding:3.6rem 0 2.4rem}
+    section{padding:2.6rem 0}
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap">
+    <h1 class="serif">王小川 · Xiaochuan Wang</h1>
+    <p class="tag-en">Community infrastructure — operations, media, research, writing.</p>
+    <p class="tag-zh" lang="zh-CN">在社区里做基础设施：运营、媒体、研究、写作。</p>
+    <p class="where">706 · Shanghai, China</p>
+  </div>
+</header>
+
+<main>
+
+<section>
+  <div class="wrap">
+    <h2>What I do / 我在做什么</h2>
+    <p class="lede-en">706 is a community experiment that grew out of living together — a group of people sharing a space, who then needed a system that could actually carry their collaboration. I build the things that system needs: automation that takes repetitive work off people's hands, tools the community can use itself, and research written up well enough that others can cite it.</p>
+    <p class="lede-zh" lang="zh-CN">706 是一个从共同生活长出来的社区实验——一群人住在一起，然后需要一个能真实运转的系统来支撑他们的协作。我的工作是把它需要的东西建出来：让重复劳动不必再由人承担的自动化、社区自己能用的工具，以及写得足够好、能被别人引用的研究。</p>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <h2>Four kinds of work / 四类工作</h2>
+
+    <div class="doing">
+      <h3><span class="num">01</span>Operations<span class="zh-t" lang="zh-CN">运营</span></h3>
+      <p>Keep the day-to-day machinery moving — tasks, tooling, events, and the recurring work a community accumulates. The goal is that anything happening for the tenth time should not need a person the eleventh time.</p>
+      <p class="zh" lang="zh-CN">让日常机器转起来：任务、工具、活动，以及一个社区不断堆积起来的重复劳动。目标是——第十次还在发生的事，第十一次不该再需要一个人来做。</p>
+    </div>
+
+    <div class="doing">
+      <h3><span class="num">02</span>Media<span class="zh-t" lang="zh-CN">媒体</span></h3>
+      <p>Get it out, and keep it. Publishing to WeChat and Xiaohongshu, archiving group-chat material, cutting meeting recordings into something publishable — turning a 12-day residency or a 5-day camp into a page people actually read to the end.</p>
+      <p class="zh" lang="zh-CN">让它被看见、被留存。公众号与小红书的发布、群聊素材的归档、把会议录像剪成可发布的东西——把一个 12 天的驻留或 5 天的营地，做成一页别人真的会读完的页面。</p>
+    </div>
+
+    <div class="doing">
+      <h3><span class="num">03</span>Research<span class="zh-t" lang="zh-CN">研究</span></h3>
+      <p>Turn experience in the field into something citable. Fieldwork on co-living and community forms, whitepapers, open social-science datasets.</p>
+      <p class="zh" lang="zh-CN">把田野里的经验变成能被引用的东西。共同居住与社区形态的田野观察、白皮书、开源社科数据集。</p>
+    </div>
+
+    <div class="doing">
+      <h3><span class="num">04</span>Writing<span class="zh-t" lang="zh-CN">写作</span></h3>
+      <p>Find the voice. Style transfer across authors and translators, narrative design for retrospectives, and the raw-material work that has to happen before any of it.</p>
+      <p class="zh" lang="zh-CN">找到声音。跨作家与译者的风格迁移、回顾长文的叙事设计，以及这一切之前必须完成的素材整理。</p>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <h2>Repositories / 作品</h2>
+
+    <!-- 注意：卡片用 div 而非锚点元素。若在卡片锚点里再放"在线预览"链接，
+         会造成锚点嵌套锚点 —— 那是无效 HTML，浏览器会提前闭合外层标签、破坏布局。 -->
+    <div class="card">
+      <p class="t"><a href="https://github.com/wang-xiaochuan/706-skills"><code>706-skills</code></a></p>
+      <p class="d">41 AI agent skills we built running a real community — operations, media, research, writing.</p>
+      <p class="d zh" lang="zh-CN">41 个在真实社区运营里长出来的 AI agent skills，按运营 / 媒体 / 研究 / 写作分类。</p>
+      <p class="meta"><span>Markdown</span><span>MIT</span><span>41 skills</span></p>
+    </div>
+
+    <div class="card">
+      <p class="t"><a href="https://github.com/wang-xiaochuan/wealth"><code>wealth</code></a></p>
+      <p class="d">BTC signal automation: multi-factor weighted scoring, MA200 trend gate, ATR-based dynamic risk levels, hourly on GitHub Actions.</p>
+      <p class="d zh" lang="zh-CN">BTC 信号自动化：多因子加权打分 + MA200 趋势闸门 + ATR 动态风险位，GitHub Actions 每小时运行。</p>
+      <p class="meta"><span>Python</span><span>GitHub Actions</span><span>MIT</span></p>
+    </div>
+
+    <div class="card">
+      <p class="t"><a href="https://github.com/wang-xiaochuan/706"><code>706</code></a></p>
+      <p class="d">706 Liangzhu Creator House — a 12-day social tech hackathon for developers, media makers, and social science researchers.</p>
+      <p class="d zh" lang="zh-CN">良渚 Creator House 黑客松落地页——12 天「三松合一」社会技术实验，页面内含两个交互 Demo。</p>
+      <p class="meta"><span>HTML</span><span>GitHub Pages</span><span><a href="https://wang-xiaochuan.github.io/706/">preview</a></span></p>
+    </div>
+
+    <div class="card">
+      <p class="t"><a href="https://github.com/wang-xiaochuan/Wamo2026"><code>Wamo2026</code></a></p>
+      <p class="d">706 Tech &amp; Humanities Camp, Chiang Mai — five themed days pairing social scientists with practitioners.</p>
+      <p class="d zh" lang="zh-CN">706 科技人文营地（清迈）议程 deck——5 个主题日，社科学者与技术实践者同台。</p>
+      <p class="meta"><span>HTML</span><span>GitHub Pages</span><span><a href="https://wang-xiaochuan.github.io/Wamo2026/">preview</a></span></p>
+    </div>
+
+    <!--
+      ═══════════════════════════════════════════════════════════
+      ⏳ 待启用：《社区发展秘籍》——需先确认是否已在公众号发布过
+         （微信「原创」标识依赖首发）。确认后可放开下面这张卡：
+
+      <div class="card">
+        <p class="t"><a href="https://github.com/wang-xiaochuan/706-community-whitepaper-2026">社区发展秘籍</a></p>
+        <p class="d">Thirteen non-negotiable principles of community governance.</p>
+        <p class="d zh" lang="zh-CN">社区治理的 13 条底线原则：成员身份可以分层、基本权利不能分层；公共权力必须授权、公共资源不能默认占有。</p>
+        <p class="meta"><span>Research</span><span>中文</span></p>
+      </div>
+      ═══════════════════════════════════════════════════════════
+    -->
+
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    <h2>Contact / 找到我</h2>
+    <p>Collaboration, invitations, or just a conversation about communities and agent systems — email is best.</p>
+    <p class="zh" lang="zh-CN">合作、邀约、或者只是想聊聊社区与 agent 系统，都欢迎写信。</p>
+    <p><a href="mailto:wang.x.c@outlook.com">wang.x.c@outlook.com</a></p>
+    <p class="links"><a href="https://github.com/wang-xiaochuan">GitHub</a></p>
+
+    <div class="colophon">
+      <p><strong>How this page was made.</strong> It was prepared by Xiaochuan's personal AI assistant, working from conversations with him, and uploaded on his behalf. He reviewed and approved it. The same applies to the documentation in <a href="https://github.com/wang-xiaochuan/706-skills">706-skills</a>: the skills are his and 706's work from real operations; the packaging and writing-up were done by the assistant.</p>
+      <p lang="zh-CN"><strong>关于这个主页。</strong> 它由王小川的数字助手在与他的交流后整理生成、代为上传，经他本人审阅确认。<a href="https://github.com/wang-xiaochuan/706-skills">706-skills</a> 仓库的文档同理：skill 本身是他与 706 在真实运营中的工作成果，整理、清理与文字撰写由助手完成。</p>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
